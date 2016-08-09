@@ -1,5 +1,5 @@
 #include<stdio.h>
-
+#include <stdlib.h>
 struct pedido
 {
     char nomePes[15];
@@ -139,8 +139,13 @@ main(){
 				printf("Saindo do programa!");
 				
 			}	
+		 else{
+            printf("Opcao invalida, voltando ao menu principal!");
+            
+           
+		}
 		
-	}while(op != 6 || op>6 );
+	}while(op != 6 || op<6 );
 	
 }
 	
