@@ -55,9 +55,13 @@ main(){
 		system("cls");
 		if(op == 1){
 			cardapio();
+			system("pause");
+			system("cls");		
+			
 		}else if(op == 2){
 			 printf("\nRealizando pedido\n");
              realizarpedido();
+            
 			}
 		else if(op == 3){
 			conta();
@@ -101,6 +105,20 @@ int verifica_cod( int cod ){ // VERIFICADOR DE CÓDIGO
     return(1);
 
 }
+int verifica_codpt( int codpt ){ // VERIFICADOR DE CÓDIGO PRATO
+    int cont = 0;
+
+    while ( cont <= 200 )
+    {
+        if ( TPrato[cont].codpt == codpt )
+            return(0);
+
+        cont++;
+    }
+
+    return(1);
+
+}
 
 int verifica_pos( void ) //VERIFICADOR DA POSIÇÃO
 {
@@ -131,13 +149,23 @@ int tamanhoArray(){
 	return cont;
 	
 }
+int tamanhoArraypt(){
+	int cont = 0;
+	for(int i= 0; i<200; i++){
+		if(TPrato[i].codpt != NULL){
+			cont++;
+		}
+	}
+	return cont;
+	
+}
 
 
 
 void realizarpedido(){
 	int op;
     do{
-    	int codaux,retorno;
+    	int codaux,retorno,codaux2, retorno2;
 		printf("\nEntre com um codigo para seu pedido: \n");
         scanf("%d",&codaux);
 		fflush(stdin);
@@ -178,21 +206,21 @@ if (senha_aux == senha) {
   printf("A senha confere, bem vindo Alcides!\n\n");
   int op;
     do{
-    	int codptaux,retorno;
+    	int codptaux,retorno2;
 		printf("\nEntre com um codigo para seu prato: \n");
         scanf("%d",&codptaux);
 		fflush(stdin);
-        retorno = verifica_cod( codptaux );
-		if(retorno ==1){
+        retorno2 = verifica_codpt( codptaux );
+		if(retorno2 ==1){
 			int tamB;
-			tamB = tamanhoArray(); 		
+			tamB = tamanhoArraypt(); 		
 			TPrato[tamB].codpt = codptaux;
         	printf("\nDigite o nome do prato: ");
         	gets(TPrato[tamB].nomePrt);
         	printf("\n");
         	printf("\nDigite o preço do prato: ");
         	scanf("%f",&TPrato[tamB].valorPrt);
-        	printf("\nSr. Alcides, voce cadastrou o prato %s ,com o valor de %1.1f,\n cadastro realizado com sucesso\n\n",TPrato[tamB].nomePrt,TPrato[tamB].valorPrt);
+        	printf("\nSr. Alcides, voce cadastrou o prato %s ,com o valor de %1.1f,\n\n",TPrato[tamB].nomePrt,TPrato[tamB].valorPrt);
       		printf("Deseja continuar?(1-continuar, 0-voltar ao menu principal): ");
       		scanf("%d",&op);
 		getchar();
@@ -212,6 +240,13 @@ else
 }
 
 void cardapio(){
+	int i;
+    for(i=0;i< 200;i++){
+        if(TPrato[i].codpt != NULL){
+        	printf(" %d",TPrato[i].codpt);
+            printf("\nNome do prato: %s \tValor do prato: R$%1.1f\n\n\n", TPrato[i].nomePrt,TPrato[i].valorPrt);
+		}
+	}
 
 }
 
