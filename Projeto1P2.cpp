@@ -6,7 +6,7 @@ struct pratos
 {
 	char nomePrt[10];
 	float valorPrt;
-	int codpt;
+	int codpt,vazio;
 }TPrato[20];
 
 struct pedido
@@ -14,16 +14,15 @@ struct pedido
     char nomePes[15];
 	char nomePed[30];
     char CPF[15];
-    char qtdPed[50];
-    char valorped[200];
-    int vazio,cod;
+    int qtdPed,vazio,cod;
+    struct TPrato;
 }TPedido[200];
 
 int verifica_cod( int cod ); // VERIFICADOR DE CÓDIGO
 
-int verifica_pos( void ); //VERIFICADOR DA POSIÇÃO
-
 int tamanhoArray();// tamanho
+
+int tamanhoArraypt();
 
 void realizarpedido();// cadastro de pedido
 
@@ -120,24 +119,6 @@ int verifica_codpt( int codpt ){ // VERIFICADOR DE CÓDIGO PRATO
 
 }
 
-int verifica_pos( void ) //VERIFICADOR DA POSIÇÃO
-{
-    int cont = 0;
-
-    while ( cont <= 200 )
-    {
-    	
-
-        if ( TPedido[cont].vazio == 0 )
-            return(cont);
-
-        cont++;
-
-    }
-
-    return(-1);
-
-} 
 
 int tamanhoArray(){
 	int cont = 0;
@@ -171,7 +152,7 @@ void realizarpedido(){
 		fflush(stdin);
         retorno = verifica_cod( codaux );
 		if(retorno ==1){
-			int tamA;
+			int tamA, codped_aux;
 			tamA = tamanhoArray(); 		
 			TPedido[tamA].cod = codaux;
         	printf("\nDigite seu nome: ");
@@ -179,12 +160,26 @@ void realizarpedido(){
         	printf("\n");
         	cardapio();
         	printf("\n");
-        	printf("\nDigite seu pedido: ");
-        	gets(TPedido[tamA].nomePed);
-        	printf("\nDigite a quantidade do seu pedido: ");
-        	gets(TPedido[tamA].qtdPed);
-        	printf("\nVoce escolheu %s unidades da opcao %s,\nseu pedido foi efetuado com sucesso.\n\n",TPedido[tamA].qtdPed,TPedido[tamA].nomePed);
-      		printf("Deseja continuar?(1-continuar, 0-voltar ao menu principal): ");
+        	printf("\nDigite seu pedido por codigo: ");
+        	scanf("%d",&codped_aux);
+        	fflush(stdin);
+        	int achou = 0;
+			for(int i = 0; i<200; i++){
+			
+	        	if(codped_aux == TPrato[tamA].codpt){
+	        		//printf("\nPrato selecionado: %s\n",TPrato[tamA].nomePrt);
+	        		printf("\nDigite a quantidade do seu pedido: ");
+	        		scanf("%d",&TPedido[tamA].qtdPed);
+	        		printf("\nVoce escolheu %d unidades da opcao %s,\nseu pedido foi efetuado com sucesso.\n\n",TPedido[tamA].qtdPed,TPrato[tamA].nomePrt);
+	        		achou = 1;
+					break; 
+				}
+			}
+			
+			if(achou = 0){
+				printf("Prato nao se encontra no nosso cardapio");
+			}
+			printf("Deseja continuar?(1-continuar, 0-voltar ao menu principal): ");
       		scanf("%d",&op);
 		getchar();
 	}else{
@@ -218,7 +213,7 @@ if (senha_aux == senha) {
         	printf("\nDigite o nome do prato: ");
         	gets(TPrato[tamB].nomePrt);
         	printf("\n");
-        	printf("\nDigite o preço do prato: ");
+        	printf("\nDigite o valor do prato: ");
         	scanf("%f",&TPrato[tamB].valorPrt);
         	printf("\nSr. Alcides, voce cadastrou o prato %s ,com o valor de %1.1f,\n\n",TPrato[tamB].nomePrt,TPrato[tamB].valorPrt);
       		printf("Deseja continuar?(1-continuar, 0-voltar ao menu principal): ");
@@ -243,8 +238,7 @@ void cardapio(){
 	int i;
     for(i=0;i< 200;i++){
         if(TPrato[i].codpt != NULL){
-        	printf(" %d",TPrato[i].codpt);
-            printf("\nNome do prato: %s \tValor do prato: R$%1.1f\n\n\n", TPrato[i].nomePrt,TPrato[i].valorPrt);
+            printf("\nCodigo do prato: %d\tNome do prato: %s \tValor do prato: R$%1.1f\n\n\n",TPrato[i].codpt,TPrato[i].nomePrt,TPrato[i].valorPrt);
 		}
 	}
 
@@ -253,11 +247,11 @@ void cardapio(){
 float conta(){
 
     int i;
+    float conta_a;
     for(i=0;i< 200;i++){
-    	
         if(TPedido[i].cod != NULL){
-        	printf(" %d",TPedido[i].cod);
-            printf("\nNome do pessoa: %s \nNome da pedido: %s\nQuantidade do pedido: %s\n\n", TPedido[i].nomePes,TPedido[i].nomePed,TPedido[i].qtdPed);
+        	conta_a = (float)TPrato[i].valorPrt*TPedido[i].qtdPed;
+        	printf("\nCliente da mesa %d\nNome do pessoa: %s \nNome da pedido: %s\nQuantidade do pedido: %d\nConta do Cliente:%1.1f\n\n",TPedido[i].cod,TPedido[i].nomePes,TPrato[i].nomePrt,TPedido[i].qtdPed,conta_a);
 		}
 	}
 }
