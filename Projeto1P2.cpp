@@ -60,11 +60,14 @@ main(){
 		}else if(op == 2){
 			 printf("\nRealizando pedido\n");
              realizarpedido();
+             system("pause");
+			 system("cls");	
             
 			}
 		else if(op == 3){
 			conta();
-			
+			system("pause");
+			system("cls");	
 			}
 		else if(op == 4){
 			}
@@ -167,7 +170,6 @@ void realizarpedido(){
 			for(int i = 0; i<200; i++){
 			
 	        	if(codped_aux == TPrato[tamA].codpt){
-	        		//printf("\nPrato selecionado: %s\n",TPrato[tamA].nomePrt);
 	        		printf("\nDigite a quantidade do seu pedido: ");
 	        		scanf("%d",&TPedido[tamA].qtdPed);
 	        		printf("\nVoce escolheu %d unidades da opcao %s,\nseu pedido foi efetuado com sucesso.\n\n",TPedido[tamA].qtdPed,TPrato[tamA].nomePrt);
@@ -215,7 +217,7 @@ if (senha_aux == senha) {
         	printf("\n");
         	printf("\nDigite o valor do prato: ");
         	scanf("%f",&TPrato[tamB].valorPrt);
-        	printf("\nSr. Alcides, voce cadastrou o prato %s ,com o valor de %1.1f,\n\n",TPrato[tamB].nomePrt,TPrato[tamB].valorPrt);
+        	printf("\nSr. Alcides, voce cadastrou o prato %s ,com o valor de R$%1.1f,\n\n",TPrato[tamB].nomePrt,TPrato[tamB].valorPrt);
       		printf("Deseja continuar?(1-continuar, 0-voltar ao menu principal): ");
       		scanf("%d",&op);
 		getchar();
@@ -270,24 +272,23 @@ void excluir(){
     fflush(stdin);
 	retorno2 = verifica_cod( cod2 );
 	tamA = tamanhoArray(); 
-            printf("\nCodigo: %d \nNome: %s\nCPF: %s\nEndereco: %s\nTelefone: %s\n\n", TPedido[tamA].nomePes,TPedido[tamA].nomePed,TPedido[tamA].qtdPed);
-            getchar();
-            printf("\nDeseja realmente exlucir? s/n: ");
-            scanf("%s",&resp);
-            if ( ( resp == 'S' ) || ( resp == 's' ) )
-                {
-                    TPedido[tamA].vazio= 0;
-                    TPedido[tamA].cod = NULL;
-                    printf("\nExclusao feita com sucesso\n");
-                }
-                else if ( ( resp == 'N' ) || ( resp == 'n' ) )
-                    {
-                        printf("Exclusao cancelada!\n");
-                    
-                    }
-		printf("Deseja continuar a excluir?(1-continuar, 0-voltar ao menu principal): ");
-      		scanf("%c",&flag);
-		getchar();
+    printf("\nNome do cliente: %s \Pedido: %s\nQuantidade: %d\n\n", TPedido[tamA].nomePes,TPedido[tamA].nomePed,TPedido[tamA].qtdPed);
+    getchar();
+    printf("\nDeseja realmente exlucir? s/n: ");
+    scanf("%s",&resp);
+    if ( ( resp == 'S' ) || ( resp == 's' ) )
+        {
+          TPedido[tamA].vazio= 0;
+          TPedido[tamA].cod = NULL;
+          printf("\nExclusao feita com sucesso\n");
+        }
+        else if ( ( resp == 'N' ) || ( resp == 'n' ) )
+            {
+             printf("Exclusao cancelada!\n");          
+            }
+	printf("Deseja continuar a excluir?(1-continuar, 0-voltar ao menu principal): ");
+    scanf("%c",&flag);
+	getchar();
 	
- }while( flag == '1');
-   }
+ 	}while( flag == '1');
+}
