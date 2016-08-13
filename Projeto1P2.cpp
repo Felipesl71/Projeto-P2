@@ -100,13 +100,11 @@ main(){
 
 int verifica_cod( int cod ){ // VERIFICADOR DE CÓDIGO
     int cont = 0;
- 
 	
     while ( cont <= 200 )
     {
-         if (cod==0 || cod>200) 
-		 return (0);
-	
+        if ( cod == 0 || cod>200 || TPedido[cont].cod == cod)
+            return(0);
 
         cont++;
     }
@@ -252,7 +250,7 @@ void cardapio(){
             encontrei = 0;
 		}
 	}
-	if(encontrei = 0){
+	if(encontrei = 1){
 		printf("Nao ha pratos cadastrados!");
 	}
 
