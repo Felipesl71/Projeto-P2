@@ -7,7 +7,7 @@ struct pratos
 	char nomePrt[10];
 	float valorPrt;
 	int codpt,vazio;
-}TPrato[20];
+}TPrato[200];
 
 struct pedido
 {
@@ -70,9 +70,14 @@ main(){
 			system("cls");	
 			}
 		else if(op == 4){
+			 alterarpedido();
+			 system("pause");
+			 system("cls");
 			}
 		else if(op == 5){
 			excluir();
+			system("pause");
+			system("cls");
 			}
 		else if(op == 6){
 			
@@ -95,7 +100,10 @@ main(){
 
 int verifica_cod( int cod ){ // VERIFICADOR DE CÓDIGO
     int cont = 0;
-
+    if (cod==0 || cod>200) 
+	return 0;
+	else{
+	
     while ( cont <= 200 )
     {
         if ( TPedido[cont].cod == cod )
@@ -105,11 +113,13 @@ int verifica_cod( int cod ){ // VERIFICADOR DE CÓDIGO
     }
 
     return(1);
-
+	}
 }
 int verifica_codpt( int codpt ){ // VERIFICADOR DE CÓDIGO PRATO
     int cont = 0;
-
+	if(codpt == 0 || codpt>200)
+	return 0;
+	else{
     while ( cont <= 200 )
     {
         if ( TPrato[cont].codpt == codpt )
@@ -119,7 +129,7 @@ int verifica_codpt( int codpt ){ // VERIFICADOR DE CÓDIGO PRATO
     }
 
     return(1);
-
+	}
 }
 
 
@@ -181,14 +191,14 @@ void realizarpedido(){
 			if(achou = 0){
 				printf("Prato nao se encontra no nosso cardapio");
 			}
-			printf("Deseja continuar?(1-continuar, 0-voltar ao menu principal): ");
-      		scanf("%d",&op);
-		getchar();
 	}else{
 			printf("\nCodigo ja existente ou invalido pressione enter para voltar ao menu principal\n");
             op ==1;
 			getchar();
-	}
+		}
+		printf("Deseja continuar?(1-continuar, 0-voltar ao menu principal): ");
+      	scanf("%d",&op);
+		getchar();
     }while(op==1);
   
 	
@@ -238,10 +248,14 @@ else
 
 void cardapio(){
 	int i;
+	int encontrei = 0;
     for(i=0;i< 200;i++){
         if(TPrato[i].codpt != NULL){
             printf("\nCodigo do prato: %d\tNome do prato: %s \tValor do prato: R$%1.1f\n\n\n",TPrato[i].codpt,TPrato[i].nomePrt,TPrato[i].valorPrt);
 		}
+	}
+	if(encontrei = 1){
+		printf("Nao ha pratos cadastrados!");
 	}
 
 }
@@ -249,12 +263,17 @@ void cardapio(){
 float conta(){
 
     int i;
+    int encontrei = 0;
     float conta_a;
     for(i=0;i< 200;i++){
         if(TPedido[i].cod != NULL){
         	conta_a = (float)TPrato[i].valorPrt*TPedido[i].qtdPed;
-        	printf("\nCliente da mesa %d\nNome do pessoa: %s \nNome da pedido: %s\nQuantidade do pedido: %d\nConta do Cliente:%1.1f\n\n",TPedido[i].cod,TPedido[i].nomePes,TPrato[i].nomePrt,TPedido[i].qtdPed,conta_a);
+        	printf("\nPedido %d\nNome do pessoa: %s \nNome da pedido: %s\nQuantidade do pedido: %d\nConta do Cliente:%1.1f\n\n",TPedido[i].cod,TPedido[i].nomePes,TPrato[i].nomePrt,TPedido[i].qtdPed,conta_a);
+
 		}
+	}
+	 if(encontrei = 1){
+		printf("Nao foram realizados pedidos/n");
 	}
 }
 
@@ -263,32 +282,7 @@ void alterarpedido(){
 	
 }
 void excluir(){
-	char flag;
-	do{
-	int cod2, cont,retorno2,tamA;
-    char resp;
-    printf("\nEntre com o codigo do registro que deseja excluir: \n");
-    scanf("%d", &cod2);
-    fflush(stdin);
-	retorno2 = verifica_cod( cod2 );
-	tamA = tamanhoArray(); 
-    printf("\nNome do cliente: %s \Pedido: %s\nQuantidade: %d\n\n", TPedido[tamA].nomePes,TPedido[tamA].nomePed,TPedido[tamA].qtdPed);
-    getchar();
-    printf("\nDeseja realmente exlucir? s/n: ");
-    scanf("%s",&resp);
-    if ( ( resp == 'S' ) || ( resp == 's' ) )
-        {
-          TPedido[tamA].vazio= 0;
-          TPedido[tamA].cod = NULL;
-          printf("\nExclusao feita com sucesso\n");
-        }
-        else if ( ( resp == 'N' ) || ( resp == 'n' ) )
-            {
-             printf("Exclusao cancelada!\n");          
-            }
-	printf("Deseja continuar a excluir?(1-continuar, 0-voltar ao menu principal): ");
-    scanf("%c",&flag);
-	getchar();
+
+  
 	
- 	}while( flag == '1');
 }
