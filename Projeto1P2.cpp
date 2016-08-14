@@ -1,13 +1,15 @@
 #include<stdio.h>
 #include <stdlib.h>
+#include<conio.h>
 #define senha 34
+#define registros 30
 
 struct pratos
 {
-	char nomePrt[10];
+	char nomePrt[30];
 	float valorPrt;
 	int codpt,vazio;
-}TPrato[200];
+}TPrato[registros];
 
 struct pedido
 {
@@ -15,8 +17,8 @@ struct pedido
 	char nomePed[30];
     char CPF[15];
     int qtdPed,vazio,cod;
-    struct TPrato;
-}TPedido[200];
+    struct TPrato ;
+}TPedido[registros];
 
 int verifica_cod( int cod ); // VERIFICADOR DE CÓDIGO
 
@@ -32,24 +34,19 @@ float conta();// Conta de cada cliente
 
 void cardapio();// Mostra cardápio
     
-void alterarpedido();
-
-void excluir();
-
-
 
 main(){
+	
 	int op,posicao,codaux,retorno;
+
 	do{
-	printf("\tMenu");
-		printf("\n1- Mostrar cardapio ");
-		printf("\n2- Realizar pedido ");
-		printf("\n3- Conta ");
-		printf("\n4- Alterar pedido");
-		printf("\n5- Excluir pedido");
-		printf("\n6- Admin");
-		printf("\n7- Sair");
-		printf("\nInforme a opcao desejada:");
+		printf("\tLanchonete do Combinado");
+		printf("\n\t1- Mostrar cardapio ");
+		printf("\n\t2- Realizar pedido ");
+		printf("\n\t3- Conta ");
+		printf("\n\t4- Admin");
+		printf("\n\t5- Sair");
+		printf("\n\tInforme a opcao desejada:");
 		scanf("%d",&op);
 		system("cls");
 		if(op == 1){
@@ -70,40 +67,30 @@ main(){
 			system("cls");	
 			}
 		else if(op == 4){
-			 alterarpedido();
-			 system("pause");
-			 system("cls");
-			}
-		else if(op == 5){
-			excluir();
+			admin();
 			system("pause");
 			system("cls");
 			}
-		else if(op == 6){
-			
-				admin();
+		else if(op == 5){
+				printf("Saindo do programa!");
 				
 			}
-		else if(op == 7){
-			printf("Creditos xxxx");
-				printf("Saindo do programa!");
-		}		
 		 else{
-            printf("Opcao invalida, voltando ao menu principal!");
+            printf("Opcao invalida, voltando ao menu principal!\n");
             
            
 		}
 		
-	}while(op != 7 || op<7 );
+	}while(op != 5 || op<5 );
 	
 }
 
 int verifica_cod( int cod ){ // VERIFICADOR DE CÓDIGO
     int cont = 0;
 	
-    while ( cont <= 200 )
+    while ( cont <= registros )
     {
-        if ( cod == 0 || cod>200 || TPedido[cont].cod == cod)
+        if ( cod == 0 || cod>registros || TPedido[cont].cod == cod)
             return(0);
 
         cont++;
@@ -115,9 +102,9 @@ int verifica_cod( int cod ){ // VERIFICADOR DE CÓDIGO
 int verifica_codpt( int codpt ){ // VERIFICADOR DE CÓDIGO PRATO
     int cont = 0;
 	
-    while ( cont <= 200 )
+    while ( cont <= registros )
     {
-        if ( codpt == 0 || codpt>200 || TPrato[cont].codpt == codpt )
+        if ( codpt == 0 || codpt>registros || TPrato[cont].codpt == codpt )
             return(0);
 
         cont++;
@@ -129,7 +116,7 @@ int verifica_codpt( int codpt ){ // VERIFICADOR DE CÓDIGO PRATO
 
 int tamanhoArray(){
 	int cont = 0;
-	for(int i= 0; i<200; i++){
+	for(int i= 0; i<registros; i++){
 		if(TPedido[i].cod != NULL){
 			cont++;
 		}
@@ -139,7 +126,7 @@ int tamanhoArray(){
 }
 int tamanhoArraypt(){
 	int cont = 0;
-	for(int i= 0; i<200; i++){
+	for(int i= 0; i<registros; i++){
 		if(TPrato[i].codpt != NULL){
 			cont++;
 		}
@@ -151,7 +138,7 @@ int tamanhoArraypt(){
 
 
 void realizarpedido(){
-	int op;
+int op;
     do{
     	int codaux,retorno,retorno2;
 		printf("\nEntre com um codigo para seu pedido: \n");
@@ -159,7 +146,7 @@ void realizarpedido(){
 		fflush(stdin);
         retorno = verifica_cod( codaux );
 		if(retorno ==1){
-			int tamA, codped_aux,retorno3;
+			int tamA, codped_aux;
 			tamA = tamanhoArray(); 		
 			TPedido[tamA].cod = codaux;
         	printf("\nDigite seu nome: ");
@@ -169,33 +156,30 @@ void realizarpedido(){
         	printf("\n");
         	printf("\nDigite seu pedido por codigo: ");
         	scanf("%d",&codped_aux);
-        	retorno2 = verifica_codpt( codped_aux );
         	fflush(stdin);
-        	int achou = 0;
-			for(int i = 0; i<200; i++){
-			
-	        	if(retorno2 == 1){
+        	int achou = 0;	
+				for(int i = 0; i<registros; i++){
+				  if(codped_aux == TPrato[tamA].codpt){
 	        		printf("\nDigite a quantidade do seu pedido: ");
 	        		scanf("%d",&TPedido[tamA].qtdPed);
 	        		printf("\nVoce escolheu %d unidades da opcao %s,\nseu pedido foi efetuado com sucesso.\n\n",TPedido[tamA].qtdPed,TPrato[tamA].nomePrt);
 	        		achou = 1;
+	    
 					break; 
 				}
 			}
-			
 			if(achou = 0){
 				printf("Prato nao se encontra no nosso cardapio");
 			}
 	}else{
-			printf("\nCodigo ja existente ou invalido pressione enter para voltar ao menu principal\n");
-            op ==1;
-			getchar();
-		}
+		printf("Código de pedido invalido, tentar novamente!");
+		op ==1;
+	}
+	
 		printf("Deseja continuar?(1-continuar, 0-voltar ao menu principal): ");
       	scanf("%d",&op);
 		getchar();
     }while(op==1);
-  
 	
 }
 
@@ -222,7 +206,7 @@ void admin(){
         	printf("\n");
         	printf("\nDigite o valor do prato: ");
         	scanf("%f",&TPrato[tamB].valorPrt);
-        	printf("\nSr. Alcides, voce cadastrou o prato %s ,com o valor de R$%1.2f,\n\n",TPrato[tamB].nomePrt,TPrato[tamB].valorPrt);
+        	printf("\nSr. Alcides, voce cadastrou o prato %s ,com o valor de R$%1.2f\n\n",TPrato[tamB].nomePrt,TPrato[tamB].valorPrt);
       		printf("Deseja continuar?(1-continuar, 0-voltar ao menu principal): ");
       		scanf("%d",&op);
 		getchar();
@@ -243,14 +227,15 @@ else
 
 void cardapio(){
 	int i;
-	int encontrei = 1;
-    for(i=0;i< 200;i++){
+	int encontrei = 0;
+	printf("\tLembre-se que cada cliente podera selecionar somente um combo!\n\n");
+    for(i=0;i< registros;i++){
         if(TPrato[i].codpt != NULL){
             printf("\nCodigo do prato: %d\tNome do prato: %s \tValor do prato: R$%1.2f\n\n\n",TPrato[i].codpt,TPrato[i].nomePrt,TPrato[i].valorPrt);
-            encontrei = 0;
+            encontrei = 1;
 		}
 	}
-	if(encontrei = 1){
+	if(encontrei = 0){
 		printf("Nao ha pratos cadastrados!");
 	}
 
@@ -261,10 +246,10 @@ float conta(){
     int i;
     int encontrei = 0;
     float conta_a;
-    for(i=0;i< 200;i++){
+    for(i=0;i< registros;i++){
         if(TPedido[i].cod != NULL){
         	conta_a = (float)TPrato[i].valorPrt*TPedido[i].qtdPed;
-        	printf("\nPedido %d\nNome do pessoa: %s \nNome da pedido: %s\nQuantidade do pedido: %d\nConta do Cliente:%1.2f\n\n",TPedido[i].cod,TPedido[i].nomePes,TPrato[i].nomePrt,TPedido[i].qtdPed,conta_a);
+        	printf("\nPedido %d\nNome do cliente: %s \nNome da pedido: %s\nQuantidade do pedido: %d\nConta do Cliente:%1.2f\n\n",TPedido[i].cod,TPedido[i].nomePes,TPrato[i].nomePrt,TPedido[i].qtdPed,conta_a);
 
 		}
 	}
